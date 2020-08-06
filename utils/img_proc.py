@@ -1,6 +1,6 @@
 import numpy as np
 import random as rd
-from config import *
+from utils.config import *
 
 def applyDarkShade(img, use_gamma=True):
     height, width = img.shape[:2]
