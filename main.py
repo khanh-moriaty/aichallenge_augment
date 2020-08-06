@@ -32,9 +32,13 @@ def augmentImage_core(fi, annotation, seed):
     annotation_new = copyCOCO(annotation)
     img_path = os.path.join(INPUT_DIR, fi)
     out_img_name = os.path.splitext(fi)[0] + '_' + str(seed) + '.jpg'
-    initJsonImage(annotation_new, annotation, out_img_name, fi)
-
+    
     img = cv2.imread(img_path)
+    
+    flipped = APPLY_FLIP and rd.randrange(2)
+    initJsonImage(annotation_new, annotation, out_img_name, fi, flipped)
+    if flipped:
+        img = img[:,::-1,:]
 
     if APPLY_SHADE:
         use_gamma = rd.randrange(2)

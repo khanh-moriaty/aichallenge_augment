@@ -12,6 +12,8 @@ def getSeed(a = None):
     if a != None: return a % HASH_BASE
     return int(time.time() * 10**8) % HASH_BASE
 
+APPLY_FLIP = True
+
 APPLY_SHADE = True
 SHADE_RANGE = (0, .5)
 SHADE_SIZE = 0.6
