@@ -4,11 +4,11 @@ import time
 import copy
 import json
 import random as rd
-from config import *
 from multiprocessing import Pool, Manager
 from itertools import repeat
-from img_proc import *
-from json_utils import initJsonImage
+from utils.config import *
+from utils.img_proc import *
+from utils.json_utils import initJsonImage
 import numpy as np
 
 def copyCOCO(annotation):
