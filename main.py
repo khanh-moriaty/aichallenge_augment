@@ -8,7 +8,7 @@ from multiprocessing import Pool, Manager
 from itertools import repeat
 from utils.config import *
 from utils.img_proc import *
-from utils.json_utils import initJsonImage
+from utils.json_utils import *
 import numpy as np
 
 
@@ -35,10 +35,10 @@ def augmentImage_core(fi, annotation, seed):
     
     img = cv2.imread(img_path)
     
-    flipped = APPLY_FLIP and rd.randrange(2)
-    initJsonImage(annotation_new, annotation, out_img_name, fi, flipped)
-    if flipped:
+    initJsonImage(annotation_new, annotation, out_img_name, fi)
+    if APPLY_FLIP and rd.randrange(2):
         img = img[:,::-1,:]
+        flipJsonImage(annotation_new)
 
     if APPLY_SHADE:
         use_gamma = rd.randrange(2)

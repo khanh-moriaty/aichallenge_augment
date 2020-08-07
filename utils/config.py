@@ -4,7 +4,7 @@ import random
 INPUT_DIR = './dataset/'
 OUTPUT_DIR = './output/'
 ITERS = 5
-CPU_PROCESSES = 5
+CPU_PROCESSES = 1
 
 HASH_BASE = 10**9 + 7
 def getSeed(a = None):

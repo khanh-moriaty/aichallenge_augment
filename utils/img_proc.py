@@ -36,3 +36,6 @@ def applyHSV(img):
     
     img = cv2.cvtColor(img_hsv.astype(np.uint8), cv2.COLOR_HSV2BGR)
     return img
+
+def applyCut(img):
+    pass

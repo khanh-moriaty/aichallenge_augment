@@ -17,7 +17,7 @@ def findJsAnn(annotation, img_id):
 
     return obj_list
 
-def initJsonImage(annotation_new, annotation, out_img_name, fi, flipped = False):
+def initJsonImage(annotation_new, annotation, out_img_name, fi):
     out_img_id = hash(out_img_name) % (10**9 + 7)
 
     out_img_jsimg = copy.deepcopy(findJsImg(annotation, fi))
@@ -29,9 +29,17 @@ def initJsonImage(annotation_new, annotation, out_img_name, fi, flipped = False)
         obj['id'] = (obj['id'] * obj['image_id'] +
                      out_img_id) % (10**9 + 7)
         obj['image_id'] = out_img_id
-        if flipped:
-            obj['bbox'][0] = out_img_jsimg['width'] - obj['bbox'][0]
-            obj['bbox'][1] = out_img_jsimg['height'] - obj['bbox'][1]
 
     annotation_new['annotations'] += out_img_obj_list
     annotation_new['images'].append(out_img_jsimg)
+    
+def flipJsonImage(annotation_new):
+    width = annotation_new['images'][0]['width']
+    height = annotation_new['images'][0]['height']
+    obj_list = annotation_new['annotations']
+    for obj in obj_list:
+        obj['bbox'][0] = width - obj['bbox'][0]
+        obj['bbox'][1] = height - obj['bbox'][1]
+        
+def cutJsonImage(annotation_new, top_left, bottom_right):
+    pass
