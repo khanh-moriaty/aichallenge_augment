@@ -39,6 +39,10 @@ def augmentImage_core(fi, annotation, seed):
     if APPLY_FLIP and rd.randrange(2):
         img = img[:,::-1,:]
         flipJsonImage(annotation_new)
+        
+    if APPLY_CUT and rd.randrange(2):
+        img, top_left, bottom_right = applyCut(img)
+        cutJsonImage(annotation_new, top_left, bottom_right)
 
     if APPLY_SHADE:
         use_gamma = rd.randrange(2)
@@ -82,7 +86,7 @@ def main():
     dir.sort()
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    annotation_res = augmentDir(dir[:], annotation)
+    annotation_res = augmentDir(dir[:1], annotation)
     annotation_path = os.path.join(OUTPUT_DIR, 'labels.json')
     with open(annotation_path, 'w') as fo:
         json.dump(annotation_res, fo, indent=2)

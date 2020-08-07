@@ -7,10 +7,14 @@ ITERS = 5
 CPU_PROCESSES = 1
 
 HASH_BASE = 10**9 + 7
-def getSeed(a = None):
+
+
+def getSeed(a=None):
     # return 69
-    if a != None: return a % HASH_BASE
+    if a != None:
+        return a % HASH_BASE
     return int(time.time() * 10**8) % HASH_BASE
+
 
 APPLY_FLIP = True
 
@@ -29,3 +33,13 @@ SATURATION_MIN = -0.15
 SATURATION_MAX = +0.15
 HSV_VALUE_MIN = -0.15
 HSV_VALUE_MAX = +0.15
+
+APPLY_CUT = True
+CUT_WIDTH_MIN = 0.5
+CUT_WIDTH_MAX = 1.0
+CUT_HEIGHT_MIN = 0.5
+CUT_HEIGHT_MAX = 1.0
+# Threshold used to determine if a bbox should be eliminated
+# More precisely, bbox will be removed if the following condition is satisfied:
+# intersection(bbox, new_img).area < CUT_ELIMINATE_THRESHOLD * bbox.area
+CUT_ELIMINATE_THRESHOLD = 0.5
