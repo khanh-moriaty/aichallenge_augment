@@ -89,7 +89,7 @@ def main():
     dir.sort()
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    annotation_res = augmentDir(dir[:2], annotation)
+    annotation_res = augmentDir(dir[:], annotation)
     annotation_path = os.path.join(OUTPUT_DIR, 'labels.json')
     with open(annotation_path, 'w') as fo:
         json.dump(annotation_res, fo, indent=2)
