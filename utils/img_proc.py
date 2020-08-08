@@ -50,3 +50,10 @@ def applyCut(img):
     ymax = ymin+new_height-1
     img_new = img[ymin:ymax, xmin:xmax]
     return img_new, (xmin, ymin), (xmax, ymax)
+
+def applySharpen(img):
+    kernel = np.array([[-0.0,-1.0,-0.0], [-1.0,4.0,-1.0], [-0.0,-1.0,-0.0]], dtype=np.float)
+    kernel = kernel / 6
+    kernel[1,1] += 1.0
+    img_new = cv2.filter2D(img, -1, kernel)
+    return img_new

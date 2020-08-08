@@ -50,6 +50,9 @@ def augmentImage_core(fi, annotation, seed):
         
     if APPLY_HSV:
         img = applyHSV(img)
+        
+    if APPLY_SHARPEN and rd.randrange(2):
+        img = applySharpen(img)
 
     out_img_path = os.path.join(OUTPUT_DIR, out_img_name)
     cv2.imwrite(out_img_path, img)
@@ -86,7 +89,7 @@ def main():
     dir.sort()
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    annotation_res = augmentDir(dir[:], annotation)
+    annotation_res = augmentDir(dir[:2], annotation)
     annotation_path = os.path.join(OUTPUT_DIR, 'labels.json')
     with open(annotation_path, 'w') as fo:
         json.dump(annotation_res, fo, indent=2)
