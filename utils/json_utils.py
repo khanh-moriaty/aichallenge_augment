@@ -1,4 +1,5 @@
 import copy
+import json
 from shapely.geometry import Polygon
 from utils.config import CUT_ELIMINATE_THRESHOLD
 
@@ -21,22 +22,26 @@ def findJsAnn(annotation, img_id):
 
     return obj_list
 
-
-def initJsonImage(annotation_new, annotation, out_img_name, fi):
-    out_img_id = hash(out_img_name) % (10**9 + 7)
-
+def createJsonTemplate(annotation_new, annotation, fi):
     out_img_jsimg = copy.deepcopy(findJsImg(annotation, fi))
     img_id = out_img_jsimg['id']
     out_img_obj_list = copy.deepcopy(findJsAnn(annotation, img_id))
+
+    annotation_new['annotations'] += out_img_obj_list
+    annotation_new['images'].append(out_img_jsimg)
+    
+def initJsonImage(annotation_new, out_img_name):
+    out_img_id = hash(out_img_name) % (10**9 + 7)
+    
+    out_img_jsimg = annotation_new['images'][0]
     out_img_jsimg['file_name'] = out_img_name
     out_img_jsimg['id'] = out_img_id
+    
+    out_img_obj_list = annotation_new['annotations']
     for obj in out_img_obj_list:
         obj['id'] = (obj['id'] * obj['image_id'] +
                      out_img_id) % (10**9 + 7)
         obj['image_id'] = out_img_id
-
-    annotation_new['annotations'] += out_img_obj_list
-    annotation_new['images'].append(out_img_jsimg)
 
 
 def flipJsonImage(annotation_new):

@@ -4,7 +4,7 @@ import random
 INPUT_DIR = './dataset/'
 OUTPUT_DIR = './output/'
 ITERS = 5
-CPU_PROCESSES = 1
+CPU_PROCESSES = 20
 
 HASH_BASE = 10**9 + 7
 

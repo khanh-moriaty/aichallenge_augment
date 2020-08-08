@@ -16,7 +16,7 @@ def copyCOCO(annotation):
     annotation_new = copy.deepcopy(annotation)
     annotation_new['images'] = []
     annotation_new['annotations'] = []
-    return annotation_new
+    return copy.deepcopy(annotation_new)
 
 
 def genNewAnnotation(annotation_list, annotation):
@@ -27,15 +27,14 @@ def genNewAnnotation(annotation_list, annotation):
     return annotation_new
 
 
-def augmentImage_core(fi, annotation, seed):
+def augmentImage_core(fi, annotation, annotation_new, seed):
     rd.seed(seed)
-    annotation_new = copyCOCO(annotation)
     img_path = os.path.join(INPUT_DIR, fi)
     out_img_name = os.path.splitext(fi)[0] + '_' + str(seed) + '.jpg'
+    initJsonImage(annotation_new, out_img_name)
     
     img = cv2.imread(img_path)
     
-    initJsonImage(annotation_new, annotation, out_img_name, fi)
     if APPLY_FLIP and rd.randrange(2):
         img = img[:,::-1,:]
         flipJsonImage(annotation_new)
@@ -61,9 +60,11 @@ def augmentImage_core(fi, annotation, seed):
 
 def augmentImage(fi, annotation, seed):
     annotation_list = []
+    annotation_new = copyCOCO(annotation)
+    createJsonTemplate(annotation_new, annotation, fi)
     for i in range(ITERS):
         annotation_list.append(augmentImage_core(
-            fi, annotation, getSeed(seed + i)))
+            fi, annotation, copy.deepcopy(annotation_new), getSeed(seed + i)))
 
     return genNewAnnotation(annotation_list, annotation)
 
