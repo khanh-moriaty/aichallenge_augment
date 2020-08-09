@@ -6,9 +6,9 @@ OUTPUT_DIR = './output/'
 ITERS = 5
 CPU_PROCESSES = 20
 
+OBJ_PER_IMG = 100
+
 HASH_BASE = 10**9 + 7
-
-
 def getSeed(a=None):
     # return 69
     if a != None:

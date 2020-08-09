@@ -1,7 +1,7 @@
 import copy
 import json
 from shapely.geometry import Polygon
-from utils.config import CUT_ELIMINATE_THRESHOLD
+from utils.config import CUT_ELIMINATE_THRESHOLD, OBJ_PER_IMG, HASH_BASE
 
 
 def findJsImg(annotation, img_file):
@@ -30,17 +30,17 @@ def createJsonTemplate(annotation_new, annotation, fi):
     annotation_new['annotations'] += out_img_obj_list
     annotation_new['images'].append(out_img_jsimg)
     
-def initJsonImage(annotation_new, out_img_name):
+def initJsonImage(annotation_new, out_img_name, image_id):
     out_img_id = hash(out_img_name) % (10**9 + 7)
+    out_img_id = image_id * OBJ_PER_IMG
     
     out_img_jsimg = annotation_new['images'][0]
     out_img_jsimg['file_name'] = out_img_name
     out_img_jsimg['id'] = out_img_id
     
     out_img_obj_list = annotation_new['annotations']
-    for obj in out_img_obj_list:
-        obj['id'] = (obj['id'] * obj['image_id'] +
-                     out_img_id) % (10**9 + 7)
+    for index, obj in enumerate(out_img_obj_list):
+        obj['id'] = out_img_id + index + 1
         obj['image_id'] = out_img_id
 
 

@@ -27,11 +27,11 @@ def genNewAnnotation(annotation_list, annotation):
     return annotation_new
 
 
-def augmentImage_core(fi, annotation, annotation_new, seed):
+def augmentImage_core(fi, annotation, annotation_new, seed, image_id):
     rd.seed(seed)
     img_path = os.path.join(INPUT_DIR, fi)
     out_img_name = os.path.splitext(fi)[0] + '_' + str(seed) + '.jpg'
-    initJsonImage(annotation_new, out_img_name)
+    initJsonImage(annotation_new, out_img_name, image_id)
     
     img = cv2.imread(img_path)
     
@@ -58,13 +58,14 @@ def augmentImage_core(fi, annotation, annotation_new, seed):
     return annotation_new
 
 
-def augmentImage(fi, annotation, seed):
+def augmentImage(fi, annotation, seed, image_id):
+    image_id = int(image_id)
     annotation_list = []
     annotation_new = copyCOCO(annotation)
     createJsonTemplate(annotation_new, annotation, fi)
     for i in range(ITERS):
         annotation_list.append(augmentImage_core(
-            fi, annotation, copy.deepcopy(annotation_new), getSeed(seed + i)))
+            fi, annotation, copy.deepcopy(annotation_new), getSeed(seed + i), image_id * ITERS + i))
 
     return genNewAnnotation(annotation_list, annotation)
 
@@ -74,8 +75,9 @@ def augmentDir(dir, annotation):
     tmp_annotation = manager.dict(annotation)
     pool = Pool(processes=CPU_PROCESSES)
     seed = getSeed()
+    image_id = np.array(range(len(dir)))
     annotation_list = pool.starmap(
-        augmentImage, zip(dir, repeat(tmp_annotation), repeat(seed)))
+        augmentImage, zip(dir, repeat(tmp_annotation), repeat(seed), image_id,))
 
     return genNewAnnotation(annotation_list, annotation)
 
