@@ -59,6 +59,9 @@ def cutJsonImage(annotation_new, top_left, bottom_right):
     xmin, ymin = top_left
     xmax, ymax = bottom_right
     
+    annotation_new['images'][0]['width'] = xmax - xmin + 1
+    annotation_new['images'][0]['height'] = ymax - ymin + 1
+    
     # large_img = Polygon(
     #     [(0, 0), (width-1, 0), (width-1, height-1), (0, height-1)])
     small_img = Polygon([(xmin, ymin), (xmax, ymin),
