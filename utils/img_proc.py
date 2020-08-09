@@ -48,7 +48,7 @@ def applyCut(img):
     ymin = rd.randrange(height - new_height + 1)
     xmax = xmin+new_width-1
     ymax = ymin+new_height-1
-    img_new = img[ymin:ymax, xmin:xmax]
+    img_new = img[ymin:ymax+1, xmin:xmax+1]
     return img_new, (xmin, ymin), (xmax, ymax)
 
 def applySharpen(img):
