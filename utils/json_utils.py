@@ -49,7 +49,7 @@ def flipJsonImage(annotation_new):
     height = annotation_new['images'][0]['height']
     obj_list = annotation_new['annotations']
     for obj in obj_list:
-        obj['bbox'][0] = width - obj['bbox'][0]
+        obj['bbox'][0] = width - obj['bbox'][0] - obj['bbox'][2]
         obj['bbox'][1] = obj['bbox'][1]
 
 
