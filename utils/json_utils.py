@@ -50,7 +50,7 @@ def flipJsonImage(annotation_new):
     obj_list = annotation_new['annotations']
     for obj in obj_list:
         obj['bbox'][0] = width - obj['bbox'][0]
-        obj['bbox'][1] = height - obj['bbox'][1]
+        obj['bbox'][1] = obj['bbox'][1]
 
 
 def cutJsonImage(annotation_new, top_left, bottom_right):
